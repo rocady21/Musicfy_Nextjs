@@ -1,14 +1,13 @@
 "use client"
+import { Layout } from "./admin/layout"
 
-import { redirect } from "next/navigation"
-console.log("hehehehehe");
-export default function Home() {
-  let is_logger = false
+export default function Home({children}) {
+
   return (
-    <div>
-      {
-        is_logger === true? redirect("Home") : redirect("login")
-      }
-    </div>
+    <Layout>
+      <div>
+        <p>Esta es la paginaaaa de inicio</p>
+      </div>
+    </Layout>
   )
 }
