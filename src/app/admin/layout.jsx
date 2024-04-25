@@ -1,24 +1,25 @@
 "use client"
-
 import { useUserSlice } from "@/redux/hooks/useUserSlice"
-import { redirect } from "next/navigation"
+import { redirect, useRouter } from "next/navigation"
 import { useEffect } from "react"
 
 export const Layout = ({children})=> {
 
-  const token = localStorage.getItem("token")
-  const {ValidToken,is_session} = useUserSlice()
+  const router = useRouter()
+  const {ValidToken,is_session,validating_token} = useUserSlice()
 
   useEffect(()=> {
-    if(token !== "") {
-      ValidToken()
-    }
+      valid_token()
   },[])
 
-  if(token === "") {
-    return redirect("login")
-  
+  const valid_token = async()=> {
+    const resp = await ValidToken()
+
+    if(resp === false) {
+      router.push("login")
+    }
   }
+
 
   return (
     <div className="w-full h-[100%]">

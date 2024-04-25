@@ -4,13 +4,14 @@ export const userSlice = createSlice({
     name:"user",
     initialState:{
         user:{},
+        users_search:[],
+        //states : loading,data,error,no-data
+        loading_users_search:"no-data",
         message: "",
-        is_session:false
+        is_session:false,
+        validating_token:false
     },
     reducers: {
-        onLoginuser:(state,{payload})=> {
-
-        },
         onShowMessage:(state,{payload})=> {
             state.message = payload
         },
@@ -22,10 +23,27 @@ export const userSlice = createSlice({
         onLogout:(state,{payload})=>{
             state.user = {}
             state.is_session = false
+        },
+        onValidating_token:(state,{payload})=> {
+            state.validating_token = payload
+        },
+        onLoadingUsersSearch:(state,{payload})=> {
+            state.loading_users_search = "loading"
+        },
+        onLoadUserSearch:(state,{payload})=> {
+            state.loading_users_search = "data"
+            state.users_search = payload
+        },
+        onClearUsersSearch:(state,{payload})=> {
+            state.loading_users_search = "no-data",
+            state.users_search = []
+        },
+        onErrorSearch:(state,{payload})=> {
+            state.loading_users_search = "error"
         }
     }
 })
 
-export const {onLoginuser,onShowMessage,onLoginUser,onLogout} = userSlice.actions
+export const {onShowMessage,onLoginUser,onLogout,onValidating_token,onErrorSearch,onLoadingUsersSearch,onLoadUserSearch,onClearUsersSearch} = userSlice.actions
 
 export default userSlice.reducer
