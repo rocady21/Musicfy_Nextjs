@@ -7,7 +7,7 @@ export const CardUserSearh = ({ data }) => {
     const {user} = useUserSlice()
     const is_me = user.id === data.id? true : false
     return (    
-        <div className='my-[45px] flex flex-row w-full'>
+        <div className='my-[45px] flex flex-row items-center w-full'>
             <div className="imgCont w-[13%] flex flex-row items-center justify-start">
                 <img className='w-[50px] h-[50px] rounded-full' src={data.photo? data.photo : "https://static.vecteezy.com/system/resources/thumbnails/005/545/335/small/user-sign-icon-person-symbol-human-avatar-isolated-on-white-backogrund-vector.jpg"} alt="" />
             </div>

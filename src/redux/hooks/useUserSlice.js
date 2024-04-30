@@ -2,13 +2,13 @@ import axios from "axios"
 import { redirect } from "next/dist/server/api-utils"
 
 const { useDispatch, useSelector } = require("react-redux")
-const { onShowMessage, onLoginUser,onErrorSearch,onClearUsersSearch, onLogout,onValidating_token, onLoadingUsersSearch, onLoadUserSearch } = require("../features/userSlice")
+const { onShowMessage, onLoginUser,onErrorSearch,onClearUsersSearch, onLogout,onValidating_token, onLoadingUsersSearch,onAddNewFriend,onDeleteFriendRequest, onLoadUserSearch,onLoadRequestFriend,onNoRequestFriend,onLoadingRequestFriend } = require("../features/userSlice")
 
 export const useUserSlice = ()=> {
-
+    
     
     const Dispatch = useDispatch()
-    const {message,user,is_session,validating_token,users_search,loading_users_search} = useSelector(state => state.userSlice)
+    const {message,user,is_session,validating_token,users_search,loading_users_search,request_friend,status_request_friend,friends} = useSelector(state => state.userSlice)
 
     const ShowMessage  = (key)=> {
         console.log("recibo la key");
@@ -36,13 +36,11 @@ export const useUserSlice = ()=> {
             console.log(token);
             const {data} = await axios.get("http://127.0.0.1:8000/api/valid_token",{
                 headers: {
-                    'Authorization': `Token ${token}` // Adjunta el token al encabezado de autorización
+                    'Authorization': `Token ${token}` 
                 }
             })
             if(data.ok) {
                 Dispatch(onLoginUser(data.data))
-                Dispatch(onValidating_token(false))
-
                 return true
                 
             }
@@ -77,19 +75,70 @@ export const useUserSlice = ()=> {
         Dispatch(onClearUsersSearch())
     }
 
+    const LoadFriendRequest = async () => {
+        Dispatch(onLoadingRequestFriend())
+        try {
+            const token = localStorage.getItem("token")
+            
+            const {data} = await axios.get("http://127.0.0.1:8000/api/user/friend_request",{
+                headers: {
+                    'Authorization': `Token ${token}`
+                }
+            })
+
+            if(data.ok === true) {
+                Dispatch(onLoadRequestFriend(data.data))
+            }
+            
+        } catch (error) {
+            console.log(error);
+            if(error.response.status === 400) {
+                return Dispatch(onNoRequestFriend())
+            }
+        }
+    }
+
+    const onAcceptFriendRequest = async(info)=> {
+        console.log("info",info);
+        try {
+            const {data} = await axios.put("http://127.0.0.1:8000/api/user/friend_request/accept",info)
+            if(data.ok === true) {
+                Dispatch(onAddNewFriend(data.new_friend))
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    const onRejectFriendRequest = async(info)=> {
+        try {
+            const {data} = await axios.delete("http://127.0.0.1:8000/api/user/friend_request/delete",info)
+            if(data.ok === true) {
+                Dispatch(onDeleteFriendRequest())
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
 
     return {
+        request_friend,
+        status_request_friend,
         users_search,
         loading_users_search,
         user,
         validating_token,
         is_session,
         message,
+        friends,
         ShowMessage,
         LoginUser,
         ValidToken,
         Logout,
         Search_User,
-        Clearusers
+        Clearusers,
+        LoadFriendRequest,
+        onAcceptFriendRequest,
+        onRejectFriendRequest
     }
 }

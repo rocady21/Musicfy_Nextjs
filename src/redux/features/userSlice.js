@@ -9,7 +9,10 @@ export const userSlice = createSlice({
         loading_users_search:"no-data",
         message: "",
         is_session:false,
-        validating_token:false
+        validating_token:false,
+        request_friend:[],
+        friends:[],
+        status_request_friend:"no-data"
     },
     reducers: {
         onShowMessage:(state,{payload})=> {
@@ -18,6 +21,7 @@ export const userSlice = createSlice({
         onLoginUser:(state,{payload})=> {
             state.user = payload
             state.is_session = true
+            state.validating_token = true
 
         },
         onLogout:(state,{payload})=>{
@@ -39,11 +43,36 @@ export const userSlice = createSlice({
             state.users_search = []
         },
         onErrorSearch:(state,{payload})=> {
-            state.loading_users_search = "error"
-        }
+            state.loading_u,sers_search = "error"
+        },
+        onLoadingRequestFriend:(state)=> {
+            state.status_request_friend = "loading"
+        },
+        onLoadRequestFriend:(state,{payload})=> {
+            state.status_request_friend = "data"
+            state.request_friend = payload
+        },
+        onNoRequestFriend:(state)=> {
+            state.status_request_friend = "no-data"
+        },
+        onAddNewFriend:(state,{payload})=> {
+            state.friends = [...state.friends,payload]
+
+            state.request_friend = state.request_friend.filter((friend)=> (friend.id !== payload.id ))
+
+            
+        },
+        onDeleteFriendRequest:(state,{payload})=> {
+  
+            state.request_friend = state.request_friend.filter((friend)=> (friend.id !== payload.id ))
+
+            if(state.request_friend.length === 0) {
+                state.status_request_friend = "no-data"
+            }
+        },
     }
 })
 
-export const {onShowMessage,onLoginUser,onLogout,onValidating_token,onErrorSearch,onLoadingUsersSearch,onLoadUserSearch,onClearUsersSearch} = userSlice.actions
+export const {onShowMessage,onAddNewFriend,onDeleteFriendRequest,onLoginUser,onLogout,onValidating_token,onErrorSearch,onLoadingUsersSearch,onLoadUserSearch,onClearUsersSearch,onLoadRequestFriend,onNoRequestFriend,onLoadingRequestFriend} = userSlice.actions
 
 export default userSlice.reducer

@@ -1,16 +1,15 @@
 "use client"
 import { useUserSlice } from "@/redux/hooks/useUserSlice"
 import { redirect, useRouter } from "next/navigation"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 
 export const Layout = ({children})=> {
 
+  const [data,setData] = useState()
+  console.log("layout");
   const router = useRouter()
   const {ValidToken,is_session,validating_token} = useUserSlice()
 
-  useEffect(()=> {
-      valid_token()
-  },[])
 
   const valid_token = async()=> {
     const resp = await ValidToken()
@@ -20,9 +19,17 @@ export const Layout = ({children})=> {
     }
   }
 
+  useEffect(()=> {
+      console.log("jejejej");
+      valid_token()
+
+      
+  },[data])
+
+
 
   return (
-    <div className="w-full h-[100%]">
+    <div className="w-full h-[100%] relative">
       {children}
     </div>
   )

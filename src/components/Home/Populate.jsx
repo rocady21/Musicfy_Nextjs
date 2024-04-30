@@ -3,7 +3,8 @@ import { CardArtist } from './CardArtist'
 import { CardPlaylist } from './CardPlaylist'
 
 export const Populate = () => {
-  return (
+
+    return (
     <div className='w-full backdrop-blur-sm h-[100%] z-10 bg-gray-100/10 rounded-[10px] bg-gradient-to-t from-black via-neutral-900 to-neutral-800'>
 
         <div className='flex flex-col w-full py-[20px] px-[25px]'>

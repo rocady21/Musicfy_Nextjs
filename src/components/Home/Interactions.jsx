@@ -3,9 +3,15 @@ import React, { useEffect, useState } from 'react'
 import { FaUserFriends } from "react-icons/fa";
 import { IoAddOutline } from "react-icons/io5";
 import { CardFriend } from './CardFriend';
+import { ModalSearchFriend } from './Modal/ModalSearchFirend';
 
-export const Interactions = ({OpenOrCloseModal}) => {
+export const Interactions = () => {
 
+    const [stateModal,setStateModal] = useState(false)
+
+    const handleModal = ()=> {
+        setStateModal(!stateModal)
+    }
 
   return (
     <div className='w-full h-[59%] bg-gray-100/10 rounded-[10px] p-5 '>
@@ -14,7 +20,7 @@ export const Interactions = ({OpenOrCloseModal}) => {
                 <FaUserFriends className='text-gray-300 mr-3' size={30}/>
                 <p className='text-[20px] text-gray-400 font-bold'>Amigos</p>
             </div>
-            <button onClick={()=> OpenOrCloseModal()}>
+            <button onClick={handleModal}>
                 <IoAddOutline className='text-gray-300' size={30}/>
             </button>
         </div>
@@ -22,6 +28,10 @@ export const Interactions = ({OpenOrCloseModal}) => {
         <div className='list_f my-5'>
             <CardFriend/>
         </div>
+
+        {
+            stateModal === true && <ModalSearchFriend  CloseModal={handleModal}/>
+        }
     </div>
   )
 }
