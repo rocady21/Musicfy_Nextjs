@@ -8,14 +8,14 @@ import { CiLogout } from "react-icons/ci";
 import { ModalFriend_request } from './Modal/ModalFriend_request';
 
 export const Profile = () => {
-
+  
   const [stateModal,setStateModal] = useState(false)
 
   const handleModal= ()=> {
     setStateModal(!stateModal)
   }
 
-    const {user,validating_token} = useUserSlice()
+    const {user,validating_token,Logout} = useUserSlice()
 
 
   if(!user.name) {
@@ -37,9 +37,9 @@ export const Profile = () => {
                   <LiaUserFriendsSolid className='justify-end' size={30} color='white' />
                   <div className='point bg-red-500 w-[10px] h-[10px] left-[-3px] rounded-full absolute top-0 '></div>
                 </button>
-                <div className='mx-5'>
+                <button onClick={Logout} className='mx-5'>
                   <CiLogout size={30} color='white' />
-                </div>
+                </button>
               </div>
             </div>
             <div className='w-full bg-white/10 p-5 rounded mt-5 text-[12px]'>

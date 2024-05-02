@@ -1,11 +1,11 @@
 import axios from "axios"
 import { redirect } from "next/dist/server/api-utils"
+import { useRouter } from "next/router"
 
 const { useDispatch, useSelector } = require("react-redux")
 const { onShowMessage, onLoginUser,onErrorSearch,onClearUsersSearch, onLogout,onValidating_token, onLoadingUsersSearch,onAddNewFriend,onDeleteFriendRequest, onLoadUserSearch,onLoadRequestFriend,onNoRequestFriend,onLoadingRequestFriend } = require("../features/userSlice")
 
 export const useUserSlice = ()=> {
-    
     
     const Dispatch = useDispatch()
     const {message,user,is_session,validating_token,users_search,loading_users_search,request_friend,status_request_friend,friends} = useSelector(state => state.userSlice)
@@ -20,7 +20,6 @@ export const useUserSlice = ()=> {
             const {data} = await axios.post("http://127.0.0.1:8000/api/login",data_form)
             console.log("d",data);
             if(data.ok === true) {
-                console.log("todo saliobien");
                 localStorage.setItem("token",data.token)
                 Dispatch(onLoginUser(data.user))
             }
@@ -33,7 +32,7 @@ export const useUserSlice = ()=> {
         Dispatch(onValidating_token(true))
         try {
             const token = localStorage.getItem("token")
-            console.log(token);
+
             const {data} = await axios.get("http://127.0.0.1:8000/api/valid_token",{
                 headers: {
                     'Authorization': `Token ${token}` 
@@ -139,6 +138,6 @@ export const useUserSlice = ()=> {
         Clearusers,
         LoadFriendRequest,
         onAcceptFriendRequest,
-        onRejectFriendRequest
+        onRejectFriendRequest,
     }
 }

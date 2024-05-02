@@ -1,3 +1,4 @@
+
 import { Layout } from "./admin/layout"
 import { Populate } from "@/components/Home/Populate"
 import { Profile } from "@/components/Home/Profile"
@@ -5,7 +6,6 @@ import { Interactions } from "@/components/Home/Interactions"
 
 
 export default function Home() {
-    console.log("se llamo");
   return (
     <Layout>
       <div className="relative w-full h-full flex flex-row">

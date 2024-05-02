@@ -22,7 +22,7 @@ const Login = () => {
     const resp = await ValidToken()
 
     if(resp === true) {
-      router.push("/Home")
+      router.push("/")
     }
   }
 

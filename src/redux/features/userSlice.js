@@ -11,7 +11,6 @@ export const userSlice = createSlice({
         is_session:false,
         validating_token:false,
         request_friend:[],
-        friends:[],
         status_request_friend:"no-data"
     },
     reducers: {
@@ -19,6 +18,7 @@ export const userSlice = createSlice({
             state.message = payload
         },
         onLoginUser:(state,{payload})=> {
+            console.log("loginnnn");
             state.user = payload
             state.is_session = true
             state.validating_token = true
@@ -27,6 +27,7 @@ export const userSlice = createSlice({
         onLogout:(state,{payload})=>{
             state.user = {}
             state.is_session = false
+            state.friends = []
         },
         onValidating_token:(state,{payload})=> {
             state.validating_token = payload
