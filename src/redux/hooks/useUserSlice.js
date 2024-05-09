@@ -3,7 +3,7 @@ import { redirect } from "next/dist/server/api-utils"
 import { useRouter } from "next/router"
 
 const { useDispatch, useSelector } = require("react-redux")
-const { onShowMessage, onLoginUser,onErrorSearch,onClearUsersSearch, onLogout,onValidating_token, onLoadingUsersSearch,onAddNewFriend,onDeleteFriendRequest, onLoadUserSearch,onLoadRequestFriend,onNoRequestFriend,onLoadingRequestFriend } = require("../features/userSlice")
+const { onShowMessage, onLoginUser,onErrorSearch,onClearUsersSearch,onHandleUserConnected, onLogout,onValidating_token, onLoadingUsersSearch,onAddNewFriend,onDeleteFriendRequest, onLoadUserSearch,onLoadRequestFriend,onNoRequestFriend,onLoadingRequestFriend } = require("../features/userSlice")
 
 export const useUserSlice = ()=> {
     
@@ -119,6 +119,10 @@ export const useUserSlice = ()=> {
         }
     }
 
+    const Recibe_user_connected = (user) => {
+        Dispatch(onHandleUserConnected(user))
+    }
+
 
     return {
         request_friend,
@@ -139,5 +143,6 @@ export const useUserSlice = ()=> {
         LoadFriendRequest,
         onAcceptFriendRequest,
         onRejectFriendRequest,
+        Recibe_user_connected
     }
 }

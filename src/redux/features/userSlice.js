@@ -44,7 +44,7 @@ export const userSlice = createSlice({
             state.users_search = []
         },
         onErrorSearch:(state,{payload})=> {
-            state.loading_u,sers_search = "error"
+            state.loading_users_search = "error"
         },
         onLoadingRequestFriend:(state)=> {
             state.status_request_friend = "loading"
